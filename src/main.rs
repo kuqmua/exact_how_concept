@@ -4,6 +4,9 @@ pub mod wrapper;
 
 use crate::wrapper::wrapper;
 
+#[macro_use]
+extern crate something;
+
 fn main() {
     if wrapper().is_err() {
         println!("Hello, darkness!");
