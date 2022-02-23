@@ -1,4 +1,5 @@
 use std::fs;
+use std::path::Path;
 
 use convert_case::Case;
 use convert_case::Casing;
@@ -58,12 +59,48 @@ pub fn derive_exact_how_concept(input: TokenStream) -> TokenStream {
 /////
 #[proc_macro_attribute]
 pub fn show_streams(attr: TokenStream, item: TokenStream) -> TokenStream {
-    println!("attr: \"{}\"", attr.to_string());
+    // println!("attr: \"{}\"", attr.to_string());
+    // println!("attr: \"{:#?}\"", attr);
+
     let question_mark_count = item.to_string().matches("?").count();
-    println!("question_mark_count: \"{}\"", question_mark_count);
-    println!("item: \"{}\"", item);
-    println!("item: \"{:#?}\"", item);
+    // println!("question_mark_count: \"{}\"", question_mark_count);
+    // println!("item: \"{}\"", item);
+    // println!("item: \"{:#?}\"", item);
     //I CAN EXTEND THE ITEM!
+    let functions_that_can_throw_vec: Vec<Ident> = Vec::new();
+    for i in attr {
+        println!("i {}", i);
+        println!("i {}", i.to_string());
+
+        println!("ilen {}", "./src/i_can_throw_one.rs".len());
+        println!("istrlen {}", i.to_string().len());
+        match fs::read_to_string("./src/i_can_throw_one.rs") {
+            //&i.to_string()
+            //
+            Err(e) => panic!("file:  error: {e}"),
+            Ok(file) => {
+                let token_stream: proc_macro::TokenStream = file
+                    .parse()
+                    .expect("cannot parse file into proc_macro::TokenStream");
+                println!("tokenstream {:#?}", token_stream);
+                // let trait_ast: syn::ItemTrait = syn::parse(token_stream)
+                //     .expect("cannot parse token_stream from file into syn::ItemTrait");
+                // trait_name = trait_ast.ident;
+                // function_vec_idents = trait_ast
+                //     .items
+                //     .iter()
+                //     .filter_map(|trait_item| match trait_item {
+                //         TraitItem::Method(trait_item_method) => Some((
+                //             trait_item_method.sig.ident.clone(),
+                //             trait_item_method.sig.output.clone(),
+                //         )),
+                //         _ => None,
+                //     })
+                //     .collect();
+            }
+        }
+    }
+
     // quote! {
     //     //kekw
     // }

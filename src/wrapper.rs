@@ -9,7 +9,7 @@ pub enum WrapperExactHowError {
     Two(u32),
 }
 
-#[show_streams]
+#[show_streams("./src/i_can_throw_one.rs" "./src/i_can_throw_two.rs")]
 pub fn wrapper() -> Result<(), WrapperExactHowError> {
     i_can_throw_one()?;
     i_can_throw_two()?;
