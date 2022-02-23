@@ -90,28 +90,31 @@ pub fn show_streams(attr: TokenStream, item: TokenStream) -> TokenStream {
     }
 
     // quote! {
-    //     //kekw
+    //     pub enum WrapperExactHowError {
+    //         ICanThrowOneError(bool), //naming?
+    //         ICanThrowTwoError(u32),  //naming?
+    //     }
+    //     pub fn wrapper() -> Result<(), WrapperExactHowError> {
+    //         use crate::i_can_throw_one::i_can_throw_one;
+    //         // use crate::i_can_throw_one::ICanThrowOneError;
+    //         use crate::i_can_throw_two::i_can_throw_two;
+    //         // use crate::i_can_throw_two::ICanThrowTwoError;
+    //         match i_can_throw_one() {
+    //             Ok(_) => {}
+    //             Err(e) => {
+    //                 return Err(WrapperExactHowError::ICanThrowOneError(e));
+    //             }
+    //         }
+    //         match i_can_throw_two() {
+    //             Ok(_) => {}
+    //             Err(e) => {
+    //                 return Err(WrapperExactHowError::ICanThrowTwoError(e));
+    //             }
+    //         }
+    //         Ok(())
+    //     }
     // }
     // .into()
     //and i can extend not only function! i can write struct+ enum + function!
     item
 }
-// pub fn wrapper() -> Result<(), WrapperExactHowError> {
-//     use crate::i_can_throw_one::i_can_throw_one;
-//     // use crate::i_can_throw_one::ICanThrowOneError;
-//     use crate::i_can_throw_two::i_can_throw_two;
-//     // use crate::i_can_throw_two::ICanThrowTwoError;
-//     match i_can_throw_one() {
-//         Ok(_) => {}
-//         Err(e) => {
-//             return Err(WrapperExactHowError::ICanThrowOneError(e));
-//         }
-//     }
-//     match i_can_throw_two() {
-//         Ok(_) => {}
-//         Err(e) => {
-//             return Err(WrapperExactHowError::ICanThrowTwoError(e));
-//         }
-//     }
-//     Ok(())
-// }
