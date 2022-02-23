@@ -67,41 +67,23 @@ pub fn show_streams(attr: TokenStream, item: TokenStream) -> TokenStream {
     // println!("item: \"{}\"", item);
     // println!("item: \"{:#?}\"", item);
     //I CAN EXTEND THE ITEM!
-    let functions_that_can_throw_vec: Vec<Ident> = Vec::new();
+    // let functions_that_can_throw_vec: Vec<Ident> = Vec::new();
     for i in attr {
-        println!("i {}", i);
-        println!("i {}", i.to_string());
+        // println!("i {}", i);
+        // println!("i {}", i.to_string());
 
-        println!("ilen {}", "./src/i_can_throw_one.rs".len());
-        println!("istrlen {}", i.to_string().len());
-        // println!("24!{}!", i.to_string().chars().nth(24).unwrap());
-        // println!("25!{}!", i.to_string().chars().nth(25).unwrap());
+        // println!("ilen {}", "./src/i_can_throw_one.rs".len());
+        // println!("istrlen {}", i.to_string().len());
         let handle = i.to_string();
         let path = handle[1..handle.len() - 1].to_string(); //remove ""
-        println!("path!{}!", path);
+                                                            // println!("path!{}!", path);
         match fs::read_to_string(&path) {
-            //&i.to_string()
-            //
             Err(e) => panic!("file:  error: {e}"),
             Ok(file) => {
                 let token_stream: proc_macro::TokenStream = file
                     .parse()
                     .expect("cannot parse file into proc_macro::TokenStream");
                 println!("tokenstream {}", token_stream);
-                // let trait_ast: syn::ItemTrait = syn::parse(token_stream)
-                //     .expect("cannot parse token_stream from file into syn::ItemTrait");
-                // trait_name = trait_ast.ident;
-                // function_vec_idents = trait_ast
-                //     .items
-                //     .iter()
-                //     .filter_map(|trait_item| match trait_item {
-                //         TraitItem::Method(trait_item_method) => Some((
-                //             trait_item_method.sig.ident.clone(),
-                //             trait_item_method.sig.output.clone(),
-                //         )),
-                //         _ => None,
-                //     })
-                //     .collect();
             }
         }
     }
