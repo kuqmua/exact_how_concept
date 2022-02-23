@@ -74,7 +74,12 @@ pub fn show_streams(attr: TokenStream, item: TokenStream) -> TokenStream {
 
         println!("ilen {}", "./src/i_can_throw_one.rs".len());
         println!("istrlen {}", i.to_string().len());
-        match fs::read_to_string("./src/i_can_throw_one.rs") {
+        // println!("24!{}!", i.to_string().chars().nth(24).unwrap());
+        // println!("25!{}!", i.to_string().chars().nth(25).unwrap());
+        let handle = i.to_string();
+        let path = handle[1..handle.len() - 1].to_string();
+        println!("path!{}!", path);
+        match fs::read_to_string(&path) {
             //&i.to_string()
             //
             Err(e) => panic!("file:  error: {e}"),
@@ -82,7 +87,7 @@ pub fn show_streams(attr: TokenStream, item: TokenStream) -> TokenStream {
                 let token_stream: proc_macro::TokenStream = file
                     .parse()
                     .expect("cannot parse file into proc_macro::TokenStream");
-                println!("tokenstream {:#?}", token_stream);
+                // println!("tokenstream {:#?}", token_stream);
                 // let trait_ast: syn::ItemTrait = syn::parse(token_stream)
                 //     .expect("cannot parse token_stream from file into syn::ItemTrait");
                 // trait_name = trait_ast.ident;
