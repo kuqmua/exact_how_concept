@@ -13,16 +13,50 @@ use proc_macro::TokenStream;
 
 use syn::Data;
 use syn::Ident;
+use syn::Type;
 
 //copy of print_type_from_config
 #[proc_macro_derive(ExactHowConceptDerive)]
 pub fn derive_exact_how_concept(input: TokenStream) -> TokenStream {
-    let ast: syn::DeriveInput = syn::parse(input).unwrap(); //if need to print ast use  instead of syn="1.0.75"
-    println!("{:#?}", ast);
-    let ident: &Ident = &ast.ident;
-    let data: Data = ast.data;
-    let generated = quote! {};
-    generated.into()
+    let ast: syn::DeriveInput =
+        syn::parse(input).expect("derive_impl_from_for_upper_struct syn::parse(input) failed");
+    let variants = match ast.data {
+        syn::Data::Enum(enum_item) => enum_item.variants,
+        _ => panic!("EnumIntoArray only works on enums"),
+    };
+    let ident = &ast.ident;
+    let generated = variants.into_iter().map(|v| {
+        let variant = v.ident;
+        let inner_enum_type: Type;
+        match &v.fields {
+            syn::Fields::Unnamed(fields_unnamed) => {
+                if fields_unnamed.unnamed.len() != 1 {
+                    panic!(
+                        "fields_unnamed.unnamed != 1, length is {}",
+                        fields_unnamed.unnamed.len()
+                    );
+                }
+                inner_enum_type = fields_unnamed.unnamed[0].ty.clone();
+            }
+            _ => panic!("v.fields is not syn::Fields::Unnamed"),
+        }
+        //         where_was: WhereWas {
+        //     file: file!(),
+        //     line: line!(),
+        //     column: column!(),
+        // },
+        quote! {
+            impl From<#inner_enum_type> for #ident {
+                fn from(error: #inner_enum_type) -> Self {
+                    #ident::#variant(error)
+                }
+            }
+        }
+    });
+    let gen = quote! {
+        #(#generated)*
+    };
+    gen.into()
     ////////////////////
     // let trait_name: Ident;
     // let function_vec_idents: Vec<(Ident, ReturnType)>;
@@ -72,21 +106,3 @@ pub fn derive_exact_how_concept(input: TokenStream) -> TokenStream {
     // };
     // generated.into()
 }
-
-// #[proc_macro_derive(SomethingDerive)]
-// pub fn derive_something(input: TokenStream) -> TokenStream {
-//     let ast: syn::DeriveInput = syn::parse(input).unwrap();
-//     println!("{:#?}", ast);
-//     quote! {}.into()
-// }
-
-// #[derive(SomethingDerive)]
-// pub enum Something {
-//     One,
-//     Two,
-// }
-
-// //что должно быть тут?
-// pub fn do_something() -> i32 {
-//     1 + 2
-// }
