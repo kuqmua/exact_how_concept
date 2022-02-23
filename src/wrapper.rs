@@ -5,13 +5,16 @@ use something::show_streams;
 
 #[derive(ExactHowConceptDerive)]
 pub enum WrapperExactHowError {
-    One(bool),
-    Two(u32),
+    ICanThrowOneError(bool), //naming?
+    ICanThrowTwoError(u32),  //naming?
 }
 
 #[show_streams("./src/i_can_throw_one.rs" "./src/i_can_throw_two.rs")]
 pub fn wrapper() -> Result<(), WrapperExactHowError> {
+    use crate::i_can_throw_one::i_can_throw_one;
+    // use crate::i_can_throw_one::ICanThrowOneError;
     use crate::i_can_throw_two::i_can_throw_two;
+    // use crate::i_can_throw_two::ICanThrowTwoError;
     i_can_throw_one()?;
     i_can_throw_two()?;
     Ok(())

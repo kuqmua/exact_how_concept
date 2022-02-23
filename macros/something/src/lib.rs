@@ -64,7 +64,7 @@ pub fn show_streams(attr: TokenStream, item: TokenStream) -> TokenStream {
 
     let question_mark_count = item.to_string().matches("?").count();
     // println!("question_mark_count: \"{}\"", question_mark_count);
-    // println!("item: \"{}\"", item);
+    println!("item: \"{}\"", item);
     // println!("item: \"{:#?}\"", item);
     //I CAN EXTEND THE ITEM!
     // let functions_that_can_throw_vec: Vec<Ident> = Vec::new();
@@ -84,6 +84,7 @@ pub fn show_streams(attr: TokenStream, item: TokenStream) -> TokenStream {
                     .parse()
                     .expect("cannot parse file into proc_macro::TokenStream");
                 println!("tokenstream {}", token_stream);
+                println!("tokenstream {:#?}", token_stream);
             }
         }
     }
@@ -92,5 +93,25 @@ pub fn show_streams(attr: TokenStream, item: TokenStream) -> TokenStream {
     //     //kekw
     // }
     // .into()
+    //and i can extend not only function! i can write struct+ enum + function!
     item
 }
+// pub fn wrapper() -> Result<(), WrapperExactHowError> {
+//     use crate::i_can_throw_one::i_can_throw_one;
+//     // use crate::i_can_throw_one::ICanThrowOneError;
+//     use crate::i_can_throw_two::i_can_throw_two;
+//     // use crate::i_can_throw_two::ICanThrowTwoError;
+//     match i_can_throw_one() {
+//         Ok(_) => {}
+//         Err(e) => {
+//             return Err(WrapperExactHowError::ICanThrowOneError(e));
+//         }
+//     }
+//     match i_can_throw_two() {
+//         Ok(_) => {}
+//         Err(e) => {
+//             return Err(WrapperExactHowError::ICanThrowTwoError(e));
+//         }
+//     }
+//     Ok(())
+// }
