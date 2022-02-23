@@ -4,13 +4,13 @@ use crate::i_can_throw_two::i_can_throw_two; //open file inside proc macro
 use something::show_streams;
 
 #[derive(ExactHowConceptDerive)]
-pub enum WrapperReturn {
+pub enum WrapperExactHowError {
     One(bool),
     Two(u32),
 }
 
 #[show_streams]
-pub fn wrapper() -> Result<(), WrapperReturn> {
+pub fn wrapper() -> Result<(), WrapperExactHowError> {
     i_can_throw_one()?;
     i_can_throw_two()?;
     Ok(())

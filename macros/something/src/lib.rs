@@ -11,6 +11,7 @@ use syn::ReturnType;
 
 use proc_macro::TokenStream;
 
+use syn::token::Question;
 use syn::Data;
 use syn::Ident;
 use syn::Type;
@@ -58,6 +59,9 @@ pub fn derive_exact_how_concept(input: TokenStream) -> TokenStream {
 #[proc_macro_attribute]
 pub fn show_streams(attr: TokenStream, item: TokenStream) -> TokenStream {
     println!("attr: \"{}\"", attr.to_string());
+    let question_mark_count = item.to_string().matches("?").count();
+    println!("question_mark_count: \"{}\"", question_mark_count);
+    println!("item: \"{}\"", item);
     println!("item: \"{:#?}\"", item);
     //I CAN EXTEND THE ITEM!
     // quote! {
